@@ -80,8 +80,6 @@ def run_preprocessing(file_path):
         print("\n📊 Missing Data Summary:")
         print(df[['cleaned_engine_cap', 'cleaned_mileage']].isna().sum())
 
-        # ... (Your existing print statements for Before & After) ...
-
         print("\n🧹 Phase 3: Statistical Wrangling (Duplicates & Outliers)...")
 
         # 1. Drop exact duplicate rows based on the 'link' column (the unique URL)
@@ -89,7 +87,7 @@ def run_preprocessing(file_path):
         df = df.drop_duplicates(subset=['link'])
         print(f"✅ Dropped {initial_count - len(df)} duplicate listings.")
 
-        # 2. Drop rows where price is missing (we can't analyze a car without a price)
+        # 2. Drop rows where price is missing
         df = df.dropna(subset=['price'])
 
         # 3. Apply the IQR filter to the price column
@@ -104,7 +102,7 @@ def run_preprocessing(file_path):
 
     return df
 
-# --- PHASE 3: STATISTICAL WRANGLING (SAIA 2143) ---
+# --- PHASE 3: STATISTICAL WRANGLING ---
 
 def remove_outliers_iqr(df, column):
 
@@ -131,12 +129,10 @@ def load_to_mysql(df, table_name, db_password):
     """Pushes the clean Pandas DataFrame to a local MySQL database."""
     print(f"\n🗄️ Pushing data to MySQL database table: '{table_name}'...")
 
-    # SQLAlchemy connection string format: dialect+driver://username:password@host:port/database
-    # Assuming default localhost port (3306) and 'root' user
     engine = create_engine(f"mysql+pymysql://root:{db_password}@localhost/malaysia_car_market_db")
 
     try:
-        # Push the dataframe. 'replace' overwrites the table if it exists, great for testing.
+        # Pushing the dataframe. 'replace' overwrites the table if it exists.
         df.to_sql(name=table_name, con=engine, if_exists='replace', index=False)
         print(f"✅ Successfully loaded {len(df)} rows into MySQL!")
     except Exception as e:

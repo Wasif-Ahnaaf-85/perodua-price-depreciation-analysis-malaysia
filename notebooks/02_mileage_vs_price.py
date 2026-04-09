@@ -28,7 +28,7 @@ output_dir = os.path.join(script_dir, '..', 'output')
 os.makedirs(output_dir, exist_ok=True)
 fig_size, dpi_setting = (19.2, 10.8), 100
 
-print("Generating Model-Specific Depreciation Scatter Plot with Percentages...")
+print("Generating Model-Specific Depreciation Scatter Plot...")
 plt.figure(figsize=fig_size)
 
 colors = ['coral', 'skyblue', 'mediumseagreen']
@@ -48,7 +48,7 @@ for i, model in enumerate(top_3_models):
 
         m, c = z[0], z[1]
 
-        # Calculate how much value is lost every 100,000 km
+        # Calculating how much value is lost every 100,000 km
         if c > 0:
             rm_lost_per_100k = abs(m) * 100000
             pct_lost_per_100k = (rm_lost_per_100k / c) * 100
@@ -67,7 +67,6 @@ plt.ylabel('Price (RM)', fontsize=18)
 plt.xticks(fontsize=14)
 plt.yticks(fontsize=14)
 
-# Format axes
 ax = plt.gca()
 ax.xaxis.set_major_formatter(ticker.StrMethodFormatter('{x:,.0f}'))
 ax.yaxis.set_major_formatter(ticker.StrMethodFormatter('{x:,.0f}'))
@@ -77,7 +76,6 @@ ax.spines['right'].set_visible(False)
 
 plt.ylim(bottom=0)
 
-# Legend updated to show the new labels with percentages
 plt.legend(fontsize=14, loc='upper right', bbox_to_anchor=(1.25, 1))
 plt.tight_layout()
 

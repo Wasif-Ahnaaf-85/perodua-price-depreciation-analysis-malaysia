@@ -12,8 +12,7 @@ db_pass = os.getenv('MYSQL_PASSWORD')
 engine = create_engine(f"mysql+pymysql://root:{db_pass}@localhost/malaysia_car_market_db")
 df = pd.read_sql("SELECT cleaned_mileage, price FROM clean_car_listings;", con=engine)
 
-# Data Prep: Define 'Condition' based on mileage
-# If mileage is 0 or NaN, we'll categorize as 'New/Near-New', else 'Used'
+# If mileage is 0 or NaN, categorizing as 'New/Near-New', else 'Used'
 df['condition'] = df['cleaned_mileage'].apply(lambda x: 'New' if (pd.isna(x) or x == 0) else 'Used')
 
 # Output Paths & Dimensions
@@ -26,8 +25,7 @@ print("Generating Price Boxplot (New vs Used)...")
 plt.figure(figsize=fig_size)
 sns.set_theme(style="white")
 
-# Create the boxplot
-# fliersize=0 removes the outlier dots so the boxes are easier to see
+# Creating the boxplot
 ax = sns.boxplot(data=df, x='condition', y='price', hue='condition',
                  palette={'New': '#72bcd4', 'Used': '#ffb347'},
                  linewidth=2.5, fliersize=2)
@@ -38,10 +36,8 @@ plt.ylabel('Price (RM)', fontsize=18)
 plt.xticks(fontsize=14)
 plt.yticks(fontsize=14)
 
-# Format Y-axis with commas
 ax.yaxis.set_major_formatter(ticker.StrMethodFormatter('{x:,.0f}'))
 
-# Clean borders
 sns.despine()
 
 plt.savefig(os.path.join(output_dir, '03_price.png'), dpi=dpi_setting, bbox_inches='tight')

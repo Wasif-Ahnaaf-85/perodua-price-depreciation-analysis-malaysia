@@ -1,7 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-import matplotlib.ticker as ticker
 from sqlalchemy import create_engine
 import os
 from dotenv import load_dotenv
@@ -70,7 +69,6 @@ output_dir = os.path.join(os.path.dirname(__file__), '..', 'output')
 os.makedirs(output_dir, exist_ok=True)
 plt.savefig(os.path.join(output_dir, '05_depreciation_summary_plot.png'), dpi=100, bbox_inches='tight')
 
-# --- Terminal Output ---
 display_df = summary_df.copy()
 display_df['Annual Drop (RM)'] = display_df['Annual Drop (RM)'].apply(lambda x: f"RM {x:,.0f}")
 display_df['Annual Drop (%)'] = display_df['Annual Drop (%)'].apply(lambda x: f"{x:.2f}%")
@@ -78,7 +76,6 @@ display_df['Annual Drop (%)'] = display_df['Annual Drop (%)'].apply(lambda x: f"
 print("\n" + "=" * 60)
 print(" FINAL DEPRECIATION SUMMARY (Segmented by Model History) ")
 print("=" * 60)
-# Updated the print list to include the new column name
 print(display_df[['Model', 'Years (Age Gap)', 'Annual Drop (RM)', 'Annual Drop (%)']].to_string(index=False))
 
 plt.show()

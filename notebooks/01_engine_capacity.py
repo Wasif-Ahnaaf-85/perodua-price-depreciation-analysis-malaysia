@@ -24,7 +24,7 @@ engine_counts = engine_data.value_counts().sort_index()
 
 plt.figure(figsize=fig_size)
 
-# Convert capacities to strings so Matplotlib treats them as perfectly spaced categories
+# Convert capacities to strings.
 plt.bar(engine_counts.index.astype(int).astype(str) + ' cc',
         engine_counts.values,
         color='skyblue',
@@ -34,14 +34,14 @@ plt.bar(engine_counts.index.astype(int).astype(str) + ' cc',
 plt.title('Distribution of Engine Capacities in Malaysia', fontsize=24, fontweight='bold', pad=20)
 plt.xlabel('Engine Capacity', fontsize=18)
 plt.ylabel('Number of Listings', fontsize=18)
-plt.xticks(fontsize=14, rotation=0) # Set to 0 so they are perfectly horizontal
+plt.xticks(fontsize=14, rotation=0)
 plt.yticks(fontsize=14)
 
-# Add data labels on top of the bars for a premium portfolio look
+# Adding data labels
 for i, v in enumerate(engine_counts.values):
     plt.text(i, v + 20, str(v), ha='center', fontsize=14, fontweight='bold', color='darkblue')
 
-# Remove the top and right spines (borders) for a cleaner, modern look
+# Removing the top and right spines.
 plt.gca().spines['top'].set_visible(False)
 plt.gca().spines['right'].set_visible(False)
 

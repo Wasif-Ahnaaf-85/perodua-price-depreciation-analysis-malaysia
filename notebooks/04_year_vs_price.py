@@ -16,8 +16,6 @@ df = pd.read_sql("SELECT year, price, model FROM clean_car_listings;", con=engin
 df = df.dropna(subset=['year', 'price', 'model'])
 df['model'] = df['model'].str.title()
 
-# Filter for a realistic timeline and the top 5 most common models
-# (To avoid a "spaghetti" chart with too many lines)
 df = df[df['year'] >= 1994]
 top_models = df['model'].value_counts().nlargest(5).index.tolist()
 df_filtered = df[df['model'].isin(top_models)]
@@ -30,7 +28,6 @@ os.makedirs(output_dir, exist_ok=True)
 print(f"Generating realistic trends for: {top_models}")
 plt.figure(figsize=(19.2, 10.8))
 
-# THE FIX: Use 'hue' to separate models so we aren't averaging different car classes
 ax = sns.lineplot(data=df_filtered, x='year', y='price', hue='model',
                   linewidth=3, marker='o', markersize=8)
 
